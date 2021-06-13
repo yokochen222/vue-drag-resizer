@@ -1,20 +1,18 @@
 <template>
   <div
+    ref="drager"
     :tabindex="tabindex"
     :style="DragerStyles"
     :class="['yo-canvas-drager', { active: mousedown || focus }]"
-    ref="drager"
     @focus="handleDragerFocus"
-    @click="handleDragerFocus"
-    @blur="handleDragerBlur"
     @keydown.16.stop.prevent="shiftKeyDown = true"
     @keyup.16.stop.prevent="shiftKeyDown = false"
-    @keydown="handleDragerKeyDown"
+    @mousedown="handleDragerMouseDown"
   >
-    <div ref="el" class="drag-el">
+    <div ref="el" class="yo-drag-el">
       <slot></slot>
     </div>
-    <div v-if="focus || mousedown" class="yo-resize-spans">
+    <div v-if="focus || mousedown" class="yo-drager-resize-spans">
       <!-- 方向缩放点 -->
       <span
         v-for="pointer in 8"
@@ -32,6 +30,7 @@
 </template>
 
 <script>
+import { scale } from "@/utils/scale";
 export default {
   props: {
     tabindex: {
@@ -85,6 +84,20 @@ export default {
       `;
     },
   },
+  watch: {
+    focus: {
+      immediate: true,
+      handler(val) {
+        if (val) {
+          this.$nextTick(() => {
+            this.handleDragerFocus();
+          });
+        } else {
+          this.handleDragerBlur();
+        }
+      },
+    },
+  },
   data() {
     return {
       // 画布信息
@@ -118,9 +131,6 @@ export default {
     };
   },
   methods: {
-    handleDragerKeyDown(e) {
-      console.log(e);
-    },
     // 获取画布信息用于碰壁检测
     getCanvasInfo() {
       const canvas = document.querySelector(this.canvas);
@@ -154,18 +164,42 @@ export default {
     },
     // 获取焦点
     handleDragerFocus() {
-      document.onmousedown = this.handleDragerMouseDown;
-      this.mousedown = true;
+      this.$emit("focus");
       this.getCanvasInfo();
-      this.getDragerInfo();
-      this.zIndex = 9999;
+      document.onkeydown = this.handleDragerKeyDown;
     },
     // 失去焦点
-    handleDragerBlur(e) {
-      this.$emit("focus", false);
+    handleDragerBlur() {
+      this.$emit("blur");
       this.zIndex = this.tabindex + 1;
       this.mousedown = false;
-      // document.onmousedown = null;
+      document.onmousedown = null;
+      document.onkeydown = null;
+    },
+    // 根据键盘调整上下左右
+    handleDragerKeyDown(e) {
+      const keycode = e.keyCode;
+      const keycodes = [37, 38, 39, 40];
+      const dom = this.$refs.drager;
+      if (keycodes.includes(keycode)) {
+        e.preventDefault();
+        e.stopPropagation();
+        switch (keycode) {
+          case 37:
+            dom.style.left = this.left - 1 + "px";
+            break;
+          case 38:
+            dom.style.top = this.top - 1 + "px";
+            break;
+          case 39:
+            dom.style.left = this.left + 1 + "px";
+            break;
+          case 40:
+            dom.style.top = this.top + 1 + "px";
+            break;
+        }
+        this.getDragerInfo();
+      }
     },
     // DOM元素鼠标按下记录鼠标位置
     // 获取DOM元素信息
@@ -175,7 +209,6 @@ export default {
       document.onmousemove = this.handleDragerMouseMove;
       document.onmouseup = () => {
         document.onmousemove = null;
-        document.onmouseup = null;
       };
       this.getDragerInfo();
     },
@@ -232,10 +265,14 @@ export default {
 
       if (this.currentDir === 1) {
         if (this.shiftKeyDown) {
-          drager.style.width = this.width - maxDis + "px";
-          drager.style.height = this.height - maxDis + "px";
-          drager.style.top = this.dragerInfo.top + maxDis + "px";
-          drager.style.left = this.dragerInfo.left + maxDis + "px";
+          const sc = scale(this.width, this.height, width);
+          const nh = this.height + this.height - sc.height;
+          const nw = this.width + this.width - sc.width;
+          drager.style.height = nh + "px";
+          drager.style.width = nw + "px";
+
+          drager.style.top = this.dragerInfo.top + (this.height - nh) + "px";
+          drager.style.left = this.dragerInfo.left + (this.width - nw) + "px";
         } else {
           drager.style.height = this.height - height + "px";
           drager.style.width = this.width - width + "px";
@@ -249,9 +286,11 @@ export default {
       }
       if (this.currentDir === 3) {
         if (this.shiftKeyDown) {
-          drager.style.height = this.height + width + "px";
-          drager.style.width = this.width + width + "px";
-          drager.style.top = this.dragerInfo.top - width + "px";
+          const sc = scale(this.width, this.height, width);
+          drager.style.height = sc.height + "px";
+          drager.style.width = sc.width + "px";
+          drager.style.top =
+            this.dragerInfo.top + (this.height - sc.height) + "px";
         } else {
           drager.style.height = this.height - height + "px";
           drager.style.width = this.width + width + "px";
@@ -269,8 +308,9 @@ export default {
       }
       if (this.currentDir === 6) {
         if (this.shiftKeyDown) {
-          drager.style.width = this.width - width + "px";
-          drager.style.height = this.height - width + "px";
+          const sc = scale(this.width, this.height, width);
+          drager.style.width = this.width + this.width - sc.width + "px";
+          drager.style.height = this.height + this.height - sc.height + "px";
           drager.style.left = this.dragerInfo.left + width + "px";
         } else {
           drager.style.width = this.width - width + "px";
@@ -283,8 +323,11 @@ export default {
       }
       if (this.currentDir === 8) {
         if (this.shiftKeyDown) {
-          drager.style.width = this.width + maxDis + "px";
-          drager.style.height = this.height + maxDis + "px";
+          // drager.style.width = this.width + maxDis + "px";
+          // drager.style.height = this.height + maxDis + "px";
+          const sc = scale(this.width, this.height, width);
+          drager.style.width = sc.width + "px";
+          drager.style.height = sc.height + "px";
         } else {
           drager.style.width = this.width + width + "px";
           drager.style.height = this.height + height + "px";
@@ -321,7 +364,7 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-$color-primary: #0087ff;
+$color-primary: #00b363;
 .yo-canvas-drager {
   position: absolute;
   cursor: pointer;
@@ -332,13 +375,13 @@ $color-primary: #0087ff;
   &.active {
     cursor: move;
   }
-  .drag-el {
+  .yo-drag-el {
     user-select: none;
     width: 100%;
     height: 100%;
     overflow: hidden;
   }
-  .yo-resize-spans {
+  .yo-drager-resize-spans {
     position: absolute;
     z-index: 1;
     top: 0;

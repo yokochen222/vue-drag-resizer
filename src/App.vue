@@ -1,16 +1,32 @@
 <template>
   <div id="app">
-    <vue-drag-resizer
-      :width.sync="rec.width"
-      :height.sync="rec.height"
-      :left.sync="rec.left"
-      :top.sync="rec.top"
-      :rotate.sync="rec.rotate"
-      :focus="true"
-      canvas="#app"
-    >
-      <img src="https://www.baidu.com/img/flexible/logo/pc/result.png" alt="" />
-    </vue-drag-resizer>
+    <pre class="info-screen">{{ recs[focusIndex] }}</pre>
+    <div class="canvas">
+      <vue-drag-resizer
+        v-for="(rec, index) in recs"
+        :key="index"
+        :width.sync="rec.width"
+        :height.sync="rec.height"
+        :left.sync="rec.left"
+        :top.sync="rec.top"
+        :rotate.sync="rec.rotate"
+        :focus="focusIndex === index"
+        @focus="handleFocus(index)"
+        canvas="#app"
+      >
+        <img v-if="rec.text" :src="rec.img" alt="" />
+        <img v-else style="width: 100%; height:100%" :src="rec.img" alt="" />
+        <div
+          v-if="rec.text"
+          style="width: 100%; height:100%"
+          :src="rec.img"
+          alt=""
+          class="text"
+        >
+          {{ rec.text }}
+        </div>
+      </vue-drag-resizer>
+    </div>
   </div>
 </template>
 
@@ -23,28 +39,70 @@ export default {
   },
   data() {
     return {
-      rec: {
-        width: 100,
-        height: 100,
-        left: 0,
-        top: 0,
-        rotate: 0,
-      },
+      focusIndex: "",
+      recs: [
+        {
+          width: 200,
+          height: 100,
+          left: 60,
+          top: 80,
+          rotate: 0,
+          focus: false,
+          img:
+            "https://as.zbjimg.com/static/nodejs-zbj-utopiacs-web/widget/header-bd-v1/img/newlogo_5b91b4a.png",
+        },
+        {
+          width: 240,
+          height: 100,
+          left: 60,
+          top: 280,
+          rotate: 0,
+          focus: false,
+          img: "https://www.baidu.com/img/flexible/logo/pc/result.png",
+        },
+        {
+          width: 240,
+          height: 100,
+          left: 60,
+          top: 480,
+          rotate: 0,
+          focus: false,
+          img: "https://www.baidu.com/img/flexible/logo/pc/result.png",
+          text: "https://www.baidu.com/img/flexible/logo/pc/result.png",
+        },
+      ],
     };
+  },
+  methods: {
+    handleFocus(index) {
+      this.focusIndex = index;
+    },
   },
 };
 </script>
-<style>
+<style lang="scss">
 body,
 html {
   height: 100%;
   width: 100%;
 }
 #app {
+}
+
+.info-screen {
+  position: absolute;
+  top: 0;
+}
+
+.canvas {
   width: 336px;
   height: 667px;
   background: #eee;
   position: relative;
   margin: 0 auto;
+  margin-top: 200px;
+  .text {
+    word-break: break-all;
+  }
 }
 </style>

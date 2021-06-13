@@ -1,6 +1,6 @@
 ### vue-drag-resizer
 
-> vue-drag-resizer，基于定位实现 DOM 旋转及大小调整
+> vue-drag-resizer，基于定位实现 DOM 旋转及大小调整、按住 shift 等比例缩放
 
 ### 安装
 
@@ -32,7 +32,7 @@
 
 <script>
 import VueDargResizer from 'vue-darg-resizer'
-import "vue-darg-resizeable/lib/vue-drag-resizer.css"
+import "vue-darg-resizer/lib/vue-drag-resizer.css"
 export default {
   components: {
     VueDargResizer
