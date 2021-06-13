@@ -1,6 +1,8 @@
 <template>
   <div id="app">
-    <pre class="info-screen">{{ recs[focusIndex] }}</pre>
+    <pre
+      class="info-screen"
+    ><h2>按住shift 等比例斜角等比例缩放</h2>{{ recs[focusIndex] }}</pre>
     <div class="canvas">
       <vue-drag-resizer
         v-for="(rec, index) in recs"
@@ -39,7 +41,7 @@ export default {
   },
   data() {
     return {
-      focusIndex: "",
+      focusIndex: 0,
       recs: [
         {
           width: 200,
