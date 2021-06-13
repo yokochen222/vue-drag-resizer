@@ -1,11 +1,11 @@
-### vue-drag-resizeable
+### vue-drag-resize
 
-> vue-darg-resizeable，定位实现 DOM 旋转及大小
+> vue-drag-resize，定位实现 DOM 旋转及大小
 
 ### 安装
 
 ```bash
- npm install vue-drag-resizeable
+ npm install vue-drag-resize
 ```
 
 ### 使用
@@ -13,7 +13,7 @@
 ```html
 <template>
   <div class="my-canvas">
-    <vue-drag-resizeable
+    <vue-drag-resize
       :left.sync="rect.left"
       :top.sync="rect.top"
       :width.sync="rect.width"
@@ -24,7 +24,7 @@
       canvas=".my-canvas"
     >
       <div>文本示例<div>
-    </vue-drag-resizeable>
+    </vue-drag-resize>
   </div>
 </template>
 

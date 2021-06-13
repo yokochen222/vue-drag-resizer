@@ -1,6 +1,6 @@
 <template>
   <div id="app">
-    <vue-drag-resizeable
+    <vue-drag-resize
       :width.sync="rec.width"
       :height.sync="rec.height"
       :left.sync="rec.left"
@@ -10,16 +10,16 @@
       canvas="#app"
     >
       <img src="https://www.baidu.com/img/flexible/logo/pc/result.png" alt="" />
-    </vue-drag-resizeable>
+    </vue-drag-resize>
   </div>
 </template>
 
 <script>
-import VueDragResizeable from "@/packages/vue-drag-resizeable";
+import VueDragResize from "@/packages/vue-drag-resize";
 export default {
   name: "App",
   components: {
-    VueDragResizeable,
+    VueDragResize,
   },
   data() {
     return {
