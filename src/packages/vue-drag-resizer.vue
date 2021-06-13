@@ -144,6 +144,13 @@ export default {
       this.$emit("update:height", height);
       this.$emit("update:top", top);
       this.$emit("update:left", left);
+      this.$emit("change", {
+        top,
+        left,
+        height,
+        width,
+        rotate: this.rotate,
+      });
     },
     // 获取焦点
     handleDragerFocus() {
