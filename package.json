@@ -1,10 +1,16 @@
 {
-  "name": "vue-drag-resize",
+  "name": "vue-drag-resizeable",
   "version": "0.1.0",
-  "private": true,
+  "private": false,
+  "author": {
+    "email": "8144064@qq.com",
+    "name": "YokoChen"
+  },
+  "main": "./dist/vue-drag-resizeable.umd.js",
   "scripts": {
     "serve": "vue-cli-service serve",
-    "build": "vue-cli-service build"
+    "build": "vue-cli-service build",
+    "lib": "vue-cli-service build --target lib --dest lib --name 'vue-drag-resizeable' './src/packages/index.js'"
   },
   "dependencies": {
     "core-js": "^3.6.5",

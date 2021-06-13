@@ -1,28 +1,50 @@
 <template>
   <div id="app">
-    <img alt="Vue logo" src="./assets/logo.png">
-    <HelloWorld msg="Welcome to Your Vue.js App"/>
+    <vue-drag-resizeable
+      :width.sync="rec.width"
+      :height.sync="rec.height"
+      :left.sync="rec.left"
+      :top.sync="rec.top"
+      :rotate.sync="rec.rotate"
+      :focus="true"
+      canvas="#app"
+    >
+      <img src="https://www.baidu.com/img/flexible/logo/pc/result.png" alt="" />
+    </vue-drag-resizeable>
   </div>
 </template>
 
 <script>
-import HelloWorld from './components/HelloWorld.vue'
-
+import VueDragResizeable from "@/packages/vue-drag-resizeable";
 export default {
-  name: 'App',
+  name: "App",
   components: {
-    HelloWorld
-  }
-}
+    VueDragResizeable,
+  },
+  data() {
+    return {
+      rec: {
+        width: 100,
+        height: 100,
+        left: 0,
+        top: 0,
+        rotate: 0,
+      },
+    };
+  },
+};
 </script>
-
-<style lang="scss">
+<style>
+body,
+html {
+  height: 100%;
+  width: 100%;
+}
 #app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-  margin-top: 60px;
+  width: 336px;
+  height: 667px;
+  background: #eee;
+  position: relative;
+  margin: 0 auto;
 }
 </style>
