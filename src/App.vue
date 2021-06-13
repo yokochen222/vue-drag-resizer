@@ -1,8 +1,7 @@
 <template>
   <div id="app">
-    <pre
-      class="info-screen"
-    ><h2>按住shift 等比例斜角等比例缩放</h2>{{ recs[focusIndex] }}</pre>
+    <pre class="info-screen">
+    <h4>按 tab 调整获取焦点的元素</h4><h4>按住shift 斜角等比例缩放</h4><h4>按方向键 单步移动元素 （1px）</h4>{{ recs[focusIndex] }}</pre>
     <div class="canvas">
       <vue-drag-resizer
         v-for="(rec, index) in recs"
@@ -83,6 +82,10 @@ export default {
 };
 </script>
 <style lang="scss">
+* {
+  padding: 0;
+  margin: 0;
+}
 body,
 html {
   height: 100%;

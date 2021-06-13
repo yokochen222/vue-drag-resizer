@@ -91,5 +91,12 @@ export default {
 
 | EventName | 事件值类型 | 示例                                                | 描述                           |
 | --------- | ---------- | --------------------------------------------------- | ------------------------------ |
-| focus     | boolean    | false                                               | 元素 focus                     |
+| focus     | null       |                                                     | 元素 focus                     |
+| blur      | null       |                                                     | 元素 blur                      |
 | change    | object     | `{ top: 10,left: 10,height:10,width:10,rotate: 0 }` | 元素布局或大小发生改变事件回调 |
+
+### 键盘快捷键
+
+> 按 tab 调整获取焦点的元素
+> 按住 shift 键 实现 元素等比例缩放
+> 单击 方向键 实现 单步移动 元素
