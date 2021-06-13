@@ -1,6 +1,7 @@
 ### vue-drag-resizer
 
 > vue-drag-resizer，基于定位实现 DOM 旋转及大小调整、按住 shift 等比例缩放
+> demo https://yokochen222.github.io/vue-drag-resizer/
 
 ### 安装
 
@@ -9,6 +10,8 @@
 ```
 
 ### 使用
+
+> demo https://yokochen222.github.io/vue-drag-resizer/
 
 ```html
 <template>
