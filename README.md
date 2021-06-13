@@ -30,6 +30,7 @@
 
 <script>
 import VueDargResizeable from 'vue-darg-resizeable'
+import "vue-darg-resizeable/lib/vue-drag-resizeable.css"
 export default {
   components: {
     VueDargResizeable

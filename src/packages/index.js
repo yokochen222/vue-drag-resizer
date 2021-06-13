@@ -1,10 +1,10 @@
-import VueDragResize from './vue-drag-resize.vue'
+import VueDragResizer from './vue-drag-resizer.vue'
 
-VueDragResize.install = (Vue) => {
-  Vue.component('vue-drag-resize', VueDragResize)
+VueDragResizer.install = (Vue) => {
+  Vue.component('vue-drag-resizer', VueDragResizer)
 }
 export {
-  VueDragResize
+  VueDragResizer
 }
 
-export default VueDragResize
+export default VueDragResizer
