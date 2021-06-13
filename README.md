@@ -1,11 +1,11 @@
-### vue-drag-resize
+### vue-drag-resizer
 
-> vue-drag-resize，定位实现 DOM 旋转及大小
+> vue-drag-resizer，定位实现 DOM 旋转及大小
 
 ### 安装
 
 ```bash
- npm install vue-drag-resize
+ npm install vue-drag-resizer
 ```
 
 ### 使用
@@ -13,7 +13,7 @@
 ```html
 <template>
   <div class="my-canvas">
-    <vue-drag-resize
+    <vue-drag-resizer
       :left.sync="rect.left"
       :top.sync="rect.top"
       :width.sync="rect.width"
@@ -24,16 +24,16 @@
       canvas=".my-canvas"
     >
       <div>文本示例<div>
-    </vue-drag-resize>
+    </vue-drag-resizer>
   </div>
 </template>
 
 <script>
-import VueDargResizeable from 'vue-darg-resizeable'
-import "vue-darg-resizeable/lib/vue-drag-resizeable.css"
+import VueDargResizer from 'vue-darg-resizer'
+import "vue-darg-resizeable/lib/vue-drag-resizer.css"
 export default {
   components: {
-    VueDargResizeable
+    VueDargResizer
   },
   data(){
     return {
