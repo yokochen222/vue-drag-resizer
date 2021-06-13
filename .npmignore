@@ -1,8 +1,11 @@
 .*
 *.md
 *.yml
+*.log
 build/
 node_modules/
 src/
 test/
 gulpfile.js
+.gitignore
+babel.config.js
