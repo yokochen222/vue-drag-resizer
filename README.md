@@ -1,6 +1,6 @@
 ### vue-drag-resizer
 
-> vue-drag-resizer，定位实现 DOM 旋转及大小
+> vue-drag-resizer，基于定位实现 DOM 旋转及大小调整
 
 ### 安装
 
