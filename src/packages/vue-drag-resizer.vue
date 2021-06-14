@@ -37,6 +37,10 @@ export default {
       type: Number,
       default: 1,
     },
+    focusZIndex: {
+      type: Number,
+      default: 1,
+    },
     left: {
       type: Number,
       default: 0,
@@ -166,6 +170,7 @@ export default {
     handleDragerFocus() {
       this.$emit("focus");
       this.getCanvasInfo();
+      this.zIndex = this.focusZIndex || this.tabindex + 1;
       document.onkeydown = this.handleDragerKeyDown;
     },
     // 失去焦点

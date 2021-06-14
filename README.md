@@ -76,16 +76,17 @@ export default {
 
 > 默认单位 `px`; left、top、width、height、rotate 必须使用.sync 修师傅更改新值 或者通过 change 事件更新
 
-| prop     | 类型    | 必填 | 描述                                                     |
-| -------- | ------- | ---- | -------------------------------------------------------- |
-| left     | number  | 是   | 相对画布 left 值                                         |
-| top      | number  | 是   | 相对画布 top 值                                          |
-| width    | number  | 是   | 元素 width 值                                            |
-| height   | number  | 是   | 元素 height 值                                           |
-| rotate   | number  | 是   | 元素旋转角度 deg                                         |
-| focus    | boolean | 否   | 是否获取焦点                                             |
-| tabindex | number  | 否   | tab 键序                                                 |
-| canvas   | string  | 否   | 默认值为 document.body; (**注 canvas 节点必须拥有宽高**) |
+| prop        | 类型    | 必填 | 描述                                                   |
+| ----------- | ------- | ---- | ------------------------------------------------------ |
+| left        | number  | 是   | 相对画布 left 值                                       |
+| top         | number  | 是   | 相对画布 top 值                                        |
+| width       | number  | 是   | 元素 width 值                                          |
+| height      | number  | 是   | 元素 height 值                                         |
+| rotate      | number  | 是   | 元素旋转角度 deg                                       |
+| focus       | boolean | 否   | 是否获取焦点                                           |
+| tabindex    | number  | 否   | tab 键序                                               |
+| focusZIndex | number  | 否   | 默认值同 tabindex+1 获取焦点后的层级顺序               |
+| canvas      | string  | 否   | 默认值 document.body; (**注 canvas 节点必须拥有宽高**) |
 
 ### Events
 
