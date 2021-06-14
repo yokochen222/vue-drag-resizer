@@ -1,6 +1,6 @@
 {
   "name": "vue-drag-resizer",
-  "version": "1.0.6",
+  "version": "1.0.7",
   "private": false,
   "author": {
     "email": "8144064@qq.com",
@@ -12,6 +12,10 @@
     "vue-drag"
   ],
   "homepage": "https://github.com/yokochen222/vue-drag-resizer",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/yokochen222/vue-drag-resizer"
+  },
   "main": "./lib/vue-drag-resizer.umd.js",
   "scripts": {
     "serve": "vue-cli-service serve",
