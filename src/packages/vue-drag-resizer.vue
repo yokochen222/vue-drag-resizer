@@ -23,6 +23,7 @@
       <!-- 控制旋转轴 -->
       <span
         @mousedown.stop.prevent="handleRoateMouseDown"
+        :style="rotateStyle"
         class="yo-canvas-drager-rotate-line"
       ></span>
     </div>
@@ -30,7 +31,12 @@
 </template>
 
 <script>
+// .yo-canvas-drager-pointer-rotate {
+//     cursor: url("http://topology.le5le.com/img/rotate.cur"), auto;
+//   }
 import { scale } from "@/utils/scale";
+// import rotateCur from "@/assets/rotate.cur";
+const rotateCur = `data:application/octet-stream;base64,AAACAAEAGBgAAAwADACICQAAFgAAACgAAAAYAAAAMAAAAAEAIAAAAAAAYAkAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAMAAAACAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAMAAAABAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAQAAAAAAAAAAAAAAJwAAAEkAAABpAAAAcAAAAF0AAAA3AAAAEwAAAAAAAAAAAAAAAQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAEYAAAC0AAAA8QAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA1wAAAIQAAAAYAAAAAAAAAAMAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAIAAAAlAAAAP8AAAD8AAAApgAAAFoAAAA3AAAAMAAAAEQAAAB3AAAAzwAAAP8AAADlAAAAUgAAAAAAAAADAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAoAAAC7AAAA/wAAAKUAAAAlAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAFYAAADgAAAA/wAAAG0AAAAAAAAAAQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA0AAAC/AAAAggAAAAAAAAAAAAAAAgAAAAIAAAABAAAAAQAAAAIAAAACAAAAAQAAAAAAAAAdAAAAwQAAAP8AAABVAAAAAAAAAAIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAHAAAAAAAAAAAAAAACAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAQAAAAAAAAAFQAAANoAAADnAAAAIgAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAEAAAAAAAAAAQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAEAAAAAAAAAEMAAAD/AAAAiQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA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`;
 export default {
   props: {
     tabindex: {
@@ -87,6 +93,9 @@ export default {
         height: ${this.height}px;
       `;
     },
+    rotateStyle() {
+      return `cursor: url(${rotateCur}), auto;`;
+    },
   },
   watch: {
     focus: {
@@ -106,6 +115,7 @@ export default {
     return {
       // 画布信息
       zIndex: this.tabindex + 1,
+      canvasDom: null,
       canvasInfo: {
         bottom: 0,
         height: 0,
@@ -137,8 +147,8 @@ export default {
   methods: {
     // 获取画布信息用于碰壁检测
     getCanvasInfo() {
-      const canvas = document.querySelector(this.canvas);
-      this.canvasInfo = canvas.getBoundingClientRect();
+      this.canvasDom = document.querySelector(this.canvas);
+      this.canvasInfo = this.canvasDom.getBoundingClientRect();
     },
     // 获取控制手柄元素信息
     getDragerInfo() {
@@ -171,15 +181,14 @@ export default {
       this.$emit("focus");
       this.getCanvasInfo();
       this.zIndex = this.focusZIndex || this.tabindex + 1;
-      document.onkeydown = this.handleDragerKeyDown;
+      document.addEventListener("keydown", this.handleDragerKeyDown);
     },
     // 失去焦点
     handleDragerBlur() {
       this.$emit("blur");
       this.zIndex = this.tabindex + 1;
       this.mousedown = false;
-      document.onmousedown = null;
-      document.onkeydown = null;
+      document.removeEventListener("keydown", this.handleDragerKeyDown);
     },
     // 根据键盘调整上下左右
     handleDragerKeyDown(e) {
@@ -211,10 +220,15 @@ export default {
     handleDragerMouseDown(e) {
       this.mousedownPos.x = e.pageX;
       this.mousedownPos.y = e.pageY;
-      document.onmousemove = this.handleDragerMouseMove;
-      document.onmouseup = () => {
-        document.onmousemove = null;
-      };
+
+      document.addEventListener("mousemove", this.handleDragerMouseMove);
+      document.addEventListener("mouseup", handleMouseUp);
+
+      const self = this;
+      function handleMouseUp() {
+        document.removeEventListener("mousemove", self.handleDragerMouseMove);
+      }
+
       this.getDragerInfo();
     },
     // DOM元素鼠标移动事件
@@ -223,21 +237,6 @@ export default {
       const disY = this.mousedownPos.y - e.pageY;
       let left = this.dragerInfo.left - disX;
       let top = this.dragerInfo.top - disY;
-
-      // left = this.canvasInfo.width - this.width;
-      // top = this.canvasInfo.height - this.height;
-      // // 左右碰壁检测
-      // if (left <= 0) {
-      //   left = 0;
-      // } else if (left + this.width > this.canvasInfo.width) {
-      //   left = this.canvasInfo.width - this.width;
-      // }
-      // // 上下碰壁检测
-      // if (top <= 0) {
-      //   top = 0;
-      // } else if (top + this.height > this.canvasInfo.height) {
-      //   top = this.canvasInfo.height - this.height;
-      // }
 
       if (left > top && this.shiftKeyDown) {
         this.$emit("update:left", left);
@@ -254,19 +253,22 @@ export default {
       this.mousedownPos.y = e.pageY;
       this.currentDir = dir;
 
-      document.onmousemove = this.handlePointMouseMove;
-      document.onmouseup = () => {
-        document.onmousemove = null;
-        document.onmouseup = null;
-        this.getDragerInfo();
-      };
+      document.addEventListener("mousemove", this.handlePointMouseMove);
+      document.addEventListener("mouseup", handleMouseUp);
+
+      const self = this;
+      function handleMouseUp() {
+        document.removeEventListener("mousemove", self.handlePointMouseMove);
+        document.removeEventListener("mouseup", handleMouseUp);
+        self.getDragerInfo();
+      }
+
       this.getDragerInfo();
     },
     handlePointMouseMove(e) {
       const drager = this.$refs.drager;
       const width = e.pageX - this.mousedownPos.x;
       const height = e.pageY - this.mousedownPos.y;
-      const maxDis = Math.max(width, height);
 
       if (this.currentDir === 1) {
         if (this.shiftKeyDown) {
@@ -328,8 +330,6 @@ export default {
       }
       if (this.currentDir === 8) {
         if (this.shiftKeyDown) {
-          // drager.style.width = this.width + maxDis + "px";
-          // drager.style.height = this.height + maxDis + "px";
           const sc = scale(this.width, this.height, width);
           drager.style.width = sc.width + "px";
           drager.style.height = sc.height + "px";
@@ -339,30 +339,36 @@ export default {
         }
       }
     },
-    handleRoateMouseDown() {
+    handleRoateMouseDown(e) {
+      this.canvasDom.style.cursor = `url(${rotateCur}),auto`;
       const drager = this.$refs.drager;
       // 旋转开始
-      var event = window.event;
+      const event = window.event;
       const resc = drager.getBoundingClientRect();
-      var point = {
+      const point = {
         x: resc.x + resc.width / 2,
         y: resc.y + resc.height / 2,
       };
-      var prevAngle =
+      const prevAngle =
         Math.atan2(event.pageY - point.y, event.pageX - point.x) -
         (this.rotate * Math.PI) / 180;
-      document.onmousemove = () => {
+
+      document.addEventListener("mousemove", handleMouseMove);
+      document.addEventListener("mouseup", handleMouseUp);
+      const self = this;
+      function handleMouseMove() {
         // 旋转
-        var event = window.event;
-        var angle = Math.atan2(event.pageY - point.y, event.pageX - point.x);
-        var rotate = Math.floor(((angle - prevAngle) * 180) / Math.PI);
-        this.$emit("update:rotate", rotate);
-      };
-      document.onmouseup = () => {
+        const event = window.event;
+        const angle = Math.atan2(event.pageY - point.y, event.pageX - point.x);
+        const rotate = Math.floor(((angle - prevAngle) * 180) / Math.PI);
+        self.$emit("update:rotate", rotate);
+      }
+      function handleMouseUp() {
         // 旋转结束
-        document.onmousemove = null;
-        document.onmouseup = null;
-      };
+        self.canvasDom.style.cursor = "default";
+        document.removeEventListener("mousemove", handleMouseMove);
+        document.removeEventListener("mouseup", handleMouseUp);
+      }
     },
   },
 };
@@ -380,6 +386,7 @@ $color-primary: #00b363;
   &.active {
     cursor: move;
   }
+
   .yo-drag-el {
     user-select: none;
     width: 100%;
@@ -417,6 +424,7 @@ $color-primary: #00b363;
       }
     }
   }
+
   .yo-canvas-drager-pointer {
     width: 7px;
     height: 7px;

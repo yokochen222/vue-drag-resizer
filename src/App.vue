@@ -12,6 +12,7 @@
         :top.sync="rec.top"
         :rotate.sync="rec.rotate"
         :focus="focusIndex === index"
+        :focus-z-index="999"
         @focus="handleFocus(index)"
         canvas="#app"
       >
@@ -106,6 +107,7 @@ html {
   position: relative;
   margin: 0 auto;
   margin-top: 200px;
+  // overflow: hidden;
   .text {
     word-break: break-all;
   }

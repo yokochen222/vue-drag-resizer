@@ -74,7 +74,7 @@ export default {
 
 ### Props
 
-> 默认单位 `px`; left、top、width、height、rotate 必须使用.sync 修师傅更改新值 或者通过 change 事件更新
+> 默认单位 `px`; left、top、width、height、rotate 必须使用.sync 修饰符更改新值 或者通过 change 事件更新
 
 | prop        | 类型    | 必填 | 描述                                                   |
 | ----------- | ------- | ---- | ------------------------------------------------------ |
@@ -101,3 +101,8 @@ export default {
 > 按 tab 调整获取焦点的元素
 > 按住 shift 键 实现 元素等比例缩放
 > 单击 方向键 实现 单步移动 元素
+
+### 1.0.8 更新
+
+> 1、更新事件监听 on 为 addEventlistener
+> 2、新增旋转控制轴 cursor 手势图标
