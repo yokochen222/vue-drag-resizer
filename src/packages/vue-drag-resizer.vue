@@ -73,6 +73,22 @@ export default {
       type: Boolean,
       default: false,
     },
+    leftMousedownStopPropagation: {
+      type: Boolean,
+      default: true,
+    },
+    leftMousedownPreventDefault: {
+      type: Boolean,
+      default: true,
+    },
+    mousemoveStopPropagation: {
+      type: Boolean,
+      default: true,
+    },
+    mousemovePreventDefault: {
+      type: Boolean,
+      default: true,
+    },
   },
   computed: {
     DragerStyles() {
@@ -125,7 +141,6 @@ export default {
         y: 0,
       },
       mousedown: false,
-      mousemoveDir: "",
       // 鼠标按下位置
       mousedownPos: {
         x: 0,
@@ -215,6 +230,13 @@ export default {
     // DOM元素鼠标按下记录鼠标位置
     // 获取DOM元素信息
     handleDragerMouseDown(e) {
+      if (e.which === 1 && this.leftMousedownStopPropagation) {
+        e.stopPropagation();
+      }
+      if (e.width === 1 && this.leftMousedownPreventDefault) {
+        e.preventDefault();
+      }
+
       this.mousedownPos.x = e.pageX;
       this.mousedownPos.y = e.pageY;
 
@@ -230,6 +252,13 @@ export default {
     },
     // DOM元素鼠标移动事件
     handleDragerMouseMove(e) {
+      if (this.mousemoveStopPropagation) {
+        e.stopPropagation();
+      }
+      if (this.mousemovePreventDefault) {
+        e.stopPropagation();
+      }
+
       const disX = this.mousedownPos.x - e.pageX;
       const disY = this.mousedownPos.y - e.pageY;
       let left = this.dragerInfo.left - disX;
@@ -263,6 +292,13 @@ export default {
       this.getDragerInfo();
     },
     handlePointMouseMove(e) {
+      if (this.mousemovePreventDefault) {
+        e.preventDefault();
+      }
+      if (this.mousemoveStopPropagation) {
+        e.stopPropagation();
+      }
+
       const drager = this.$refs.drager;
       const width = e.pageX - this.mousedownPos.x;
       const height = e.pageY - this.mousedownPos.y;
@@ -353,7 +389,13 @@ export default {
       document.addEventListener("mousemove", handleMouseMove);
       document.addEventListener("mouseup", handleMouseUp);
       const self = this;
-      function handleMouseMove() {
+      function handleMouseMove(e) {
+        if (self.mousemoveStopPropagation) {
+          e.stopPropagation();
+        }
+        if (self.mousemovePreventDefault) {
+          e.preventDefault();
+        }
         // 旋转
         const event = window.event;
         const angle = Math.atan2(event.pageY - point.y, event.pageX - point.x);

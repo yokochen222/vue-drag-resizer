@@ -76,17 +76,21 @@ export default {
 
 > 默认单位 `px`; left、top、width、height、rotate 必须使用.sync 修饰符更改新值 或者通过 change 事件更新
 
-| prop        | 类型    | 必填 | 描述                                                   |
-| ----------- | ------- | ---- | ------------------------------------------------------ |
-| left        | number  | 是   | 相对画布 left 值                                       |
-| top         | number  | 是   | 相对画布 top 值                                        |
-| width       | number  | 是   | 元素 width 值                                          |
-| height      | number  | 是   | 元素 height 值                                         |
-| rotate      | number  | 是   | 元素旋转角度 deg                                       |
-| focus       | boolean | 否   | 是否获取焦点                                           |
-| tabindex    | number  | 否   | tab 键序                                               |
-| focusZIndex | number  | 否   | 默认值同 tabindex+1 获取焦点后的层级顺序               |
-| canvas      | string  | 否   | 默认值 document.body; (**注 canvas 节点必须拥有宽高**) |
+| prop                         | 类型    | 必填 | 描述                                                   |
+| ---------------------------- | ------- | ---- | ------------------------------------------------------ |
+| left                         | number  | 是   | 相对画布 left 值                                       |
+| top                          | number  | 是   | 相对画布 top 值                                        |
+| width                        | number  | 是   | 元素 width 值                                          |
+| height                       | number  | 是   | 元素 height 值                                         |
+| rotate                       | number  | 是   | 元素旋转角度 deg                                       |
+| focus                        | boolean | 否   | 是否获取焦点                                           |
+| tabindex                     | number  | 否   | tab 键序                                               |
+| focusZIndex                  | number  | 否   | 默认值同 tabindex+1 获取焦点后的层级顺序               |
+| canvas                       | string  | 否   | 默认值 document.body; (**注 canvas 节点必须拥有宽高**) |
+| leftMousedownStopPropagation | boolean | 否   | 默认值 true, 鼠标左键点击元素是否阻止事件冒泡          |
+| leftMousedownPreventDefault  | boolean | 否   | 默认值 true, 鼠标左键点击元素是否阻浏览器默认行为      |
+| mousemoveStopPropagation     | boolean | 否   | 默认值 true, 鼠标点击元素并移动元素是否阻止事件冒泡    |
+| mousemovePreventDefault      | boolean | 否   | 默认值 true, 鼠标点击元素并移动元素是否默认浏览器行为  |
 
 ### Events
 
@@ -104,4 +108,4 @@ export default {
 
 ### 1.0.9 更新
 
-> 1、更改 shift keydown 事件 监听 为 e.shiftKey
+> 1、新增阻止事件冒泡及默认行为 props
