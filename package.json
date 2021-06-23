@@ -1,6 +1,6 @@
 {
   "name": "vue-drag-resizer",
-  "version": "1.0.8",
+  "version": "1.0.9",
   "private": false,
   "author": {
     "email": "8144064@qq.com",
@@ -29,7 +29,6 @@
   "devDependencies": {
     "@vue/cli-plugin-babel": "~4.5.0",
     "@vue/cli-service": "~4.5.0",
-    "file-loader": "^6.2.0",
     "sass": "^1.26.5",
     "sass-loader": "^8.0.2",
     "vue-template-compiler": "^2.6.11"

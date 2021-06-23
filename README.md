@@ -102,7 +102,6 @@ export default {
 > 按住 shift 键 实现 元素等比例缩放
 > 单击 方向键 实现 单步移动 元素
 
-### 1.0.8 更新
+### 1.0.9 更新
 
-> 1、更新事件监听 on 为 addEventlistener
-> 2、新增旋转控制轴 cursor 手势图标
+> 1、更改 shift keydown 事件 监听 为 e.shiftKey

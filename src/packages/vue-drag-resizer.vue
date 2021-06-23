@@ -5,8 +5,6 @@
     :style="DragerStyles"
     :class="['yo-canvas-drager', { active: mousedown || focus }]"
     @focus="handleDragerFocus"
-    @keydown.16.stop.prevent="shiftKeyDown = true"
-    @keyup.16.stop.prevent="shiftKeyDown = false"
     @mousedown="handleDragerMouseDown"
   >
     <div ref="el" class="yo-drag-el">
@@ -126,7 +124,6 @@ export default {
         x: 0,
         y: 0,
       },
-      shiftKeyDown: false,
       mousedown: false,
       mousemoveDir: "",
       // 鼠标按下位置
@@ -238,9 +235,9 @@ export default {
       let left = this.dragerInfo.left - disX;
       let top = this.dragerInfo.top - disY;
 
-      if (left > top && this.shiftKeyDown) {
+      if (left > top && e.shiftKey) {
         this.$emit("update:left", left);
-      } else if (top > left && this.shiftKeyDown) {
+      } else if (top > left && e.shiftKey) {
         this.$emit("update:top", top);
       } else {
         this.$emit("update:left", left);
@@ -271,7 +268,7 @@ export default {
       const height = e.pageY - this.mousedownPos.y;
 
       if (this.currentDir === 1) {
-        if (this.shiftKeyDown) {
+        if (e.shiftKey) {
           const sc = scale(this.width, this.height, width);
           const nh = this.height + this.height - sc.height;
           const nw = this.width + this.width - sc.width;
@@ -292,7 +289,7 @@ export default {
         drager.style.top = this.dragerInfo.top + height + "px";
       }
       if (this.currentDir === 3) {
-        if (this.shiftKeyDown) {
+        if (e.shiftKey) {
           const sc = scale(this.width, this.height, width);
           drager.style.height = sc.height + "px";
           drager.style.width = sc.width + "px";
@@ -314,7 +311,7 @@ export default {
         drager.style.height = this.height + "px";
       }
       if (this.currentDir === 6) {
-        if (this.shiftKeyDown) {
+        if (e.shiftKey) {
           const sc = scale(this.width, this.height, width);
           drager.style.width = this.width + this.width - sc.width + "px";
           drager.style.height = this.height + this.height - sc.height + "px";
@@ -329,7 +326,7 @@ export default {
         drager.style.height = this.height + height + "px";
       }
       if (this.currentDir === 8) {
-        if (this.shiftKeyDown) {
+        if (e.shiftKey) {
           const sc = scale(this.width, this.height, width);
           drager.style.width = sc.width + "px";
           drager.style.height = sc.height + "px";
